@@ -1,6 +1,6 @@
 -- Provide a query that shows the top 3 best selling artists
 
-select Top(3) with ties Artist.ArtistId, Artist.[Name], count(InvoiceLine.InvoiceLineId) as PurchaseCount
+select Top(3) with ties Artist.ArtistId, Artist.[Name], sum(InvoiceLine.Quantity) as PurchaseCount
 from InvoiceLine
 	join Track
 		on InvoiceLine.TrackId = Track.TrackId
@@ -9,4 +9,4 @@ from InvoiceLine
 	join Artist
 		on Album.ArtistId = Artist.ArtistId
 group by Artist.ArtistId, Artist.[Name]
-order by count(InvoiceLine.InvoiceLineId) desc
+order by sum(InvoiceLine.Quantity) desc
