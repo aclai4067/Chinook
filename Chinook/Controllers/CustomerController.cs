@@ -14,13 +14,26 @@ namespace Chinook.Controllers
     {
         // GET: api/Customer/Brazil
         [HttpGet("{country}")]
-        public IActionResult Get(string country)
+        public IActionResult GetCustomersByCountry(string country)
         {
             var repo = new CustomerRepo();
             var customers = repo.GetByCountry(country);
             if (!customers.Any())
             {
                 return NotFound();
+            }
+            return Ok(customers);
+        }
+
+        // GET: api/Customer/Not/USA
+        [HttpGet("Not/{country}")]
+        public IActionResult Get(string country)
+        {
+            var repo = new CustomerRepo();
+            var customers = repo.GetAllExceptCountry(country);
+            if (!customers.Any())
+            {
+                return NotFound("sry not found");
             }
             return Ok(customers);
         }
