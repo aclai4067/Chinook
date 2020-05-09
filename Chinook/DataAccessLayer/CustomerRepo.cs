@@ -41,5 +41,38 @@ namespace Chinook
                 return customers;
             }
         }
+
+        public List<Customer> GetAllExceptCountry(string country) 
+        {
+            var sql = @"select (FirstName + ' ' + LastName) as FullName, CustomerId, Country
+                        from Customer
+                        where not Country = @Country
+                        order by Country";
+
+            using (var connection = new SqlConnection(connectionString)) 
+            {
+                connection.Open();
+
+                var cmd = connection.CreateCommand();
+                cmd.CommandText = sql;
+                cmd.Parameters.AddWithValue("Country", country);
+                var reader = cmd.ExecuteReader();
+                var customers = new List<Customer>();
+                while (reader.Read()) 
+                {
+                    var customer = new Customer
+                    {
+                        FullName = (string)reader["FullName"],
+                        CustomerId = (int)reader["CustomerId"],
+                        Country = (string)reader["Country"]
+                    };
+                    customers.Add(customer);
+                }
+                return customers;
+
+            }
+
+
+        }
     }
 }

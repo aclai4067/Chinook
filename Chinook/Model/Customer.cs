@@ -10,6 +10,7 @@ namespace Chinook.Model
         public int CustomerId { get; internal set; }
         public string FirstName { get; internal set; }
         public string LastName { get; internal set; }
+        public string FullName { get; internal set; }
         public string Country { get; internal set; }
     }
 }
